@@ -6,4 +6,11 @@ module.exports = {
     "prettier",
     "plugin: prettier/recommended",
   ],
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: "module",
+  },
+  rules: {
+    "prettier/prettier": 0,
+  },
 };
