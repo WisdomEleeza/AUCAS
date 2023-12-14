@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
 enum ResultDocument {
   SHS_GRADUATE
   RE_SIT
@@ -18,37 +24,53 @@ enum ResultDocument {
   TAP
 }
 
-enum sponsorship {
+enum Sponsorship {
   STUDENT_LOAN
   REQUESTING_SPONSORSHIP
   HAVE_SCHOLARSHIP
 }
 
-model student {
-  // student details
-  id                 String         @id @default(uuid())
-  firstName          String
-  lastName           String
-  email              String
-  password           String
-  phone              Int
-  residenceAddress   String
-  gender             String
-  occupation         String
-  workAddress        String?
-  city               String
-  dateOfBirth        String
-  nationalID         String
-  nationality        String
-  otherNationality   String?
-  // Result Document
-  profilePicture     String
-  graduationStatus   String
-  resultDocument     ResultDocument
-  transcript         String?
+enum Relationship {
+  PARENT
+  SIBLING
+  OTHER
+}
+
+model Student {
+  id                 String          @id @default(uuid())
+  profilePicture     String?
+  resultDocument     ResultDocument?
   currentInstitution String
   country            String
-  // sponsorship
-  // if sponsorship is self same student detail
-  relation           String
+  firstName          String
+  lastName           String
+  email              String          @unique
+  phone              String
+  residenceAddress   String
+  gender             Gender
+  occupation         String
+  workAddress        String?
+  city               String?
+  dateOfBirth        DateTime?
+  nationalId         String
+  nationality2       String?
+  password           String
+  relationship       Relationship
+  hasScholarship     Sponsorship
+  sponsor            Sponsor? // Make it optional, as sponsorship can be self
+}
+
+// Sponsor model now has an optional relationship with Student
+model Sponsor {
+  id               String       @id @default(uuid())
+  firstName        String
+  lastName         String
+  email            String       @unique
+  phone            String
+  residenceAddress String
+  relation         Relationship
+  occupation       String
+  workAddress      String
+  student          Student?     @relation(fields: [studentId], references: [id])
+  studentId        String?      @unique // Make it unique, as it's part of a one-to-one relationship
 }

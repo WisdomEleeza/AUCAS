@@ -4,7 +4,7 @@
   "description": "Africa Universities & Colleges System",
   "main": "index.js",
   "scripts": {
-    "prisma": "npx prisma format",
+    "prisma:format": "npx prisma format",
     "build": "rimraf dist && npx tsc",
     "start": "nodemon dist/index.js",
     "preserve": "npm run build",
