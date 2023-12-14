@@ -9,3 +9,46 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum ResultDocument {
+  SHS_GRADUATE
+  RE_SIT
+  WAITING_SHS_3
+  SHS2_SHS1
+  TAP
+}
+
+enum sponsorship {
+  STUDENT_LOAN
+  REQUESTING_SPONSORSHIP
+  HAVE_SCHOLARSHIP
+}
+
+model student {
+  // student details
+  id                 String         @id @default(uuid())
+  firstName          String
+  lastName           String
+  email              String
+  password           String
+  phone              Int
+  residenceAddress   String
+  gender             String
+  occupation         String
+  workAddress        String?
+  city               String
+  dateOfBirth        String
+  nationalID         String
+  nationality        String
+  otherNationality   String?
+  // Result Document
+  profilePicture     String
+  graduationStatus   String
+  resultDocument     ResultDocument
+  transcript         String?
+  currentInstitution String
+  country            String
+  // sponsorship
+  // if sponsorship is self same student detail
+  relation           String
+}
