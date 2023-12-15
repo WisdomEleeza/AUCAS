@@ -1,0 +1,46 @@
+version: "3.9"  # Docker Compose file version
+
+services:
+  postgres:
+    image: postgres:16.1  # Use the official Postgres Docker image version 16.1
+    container_name: aucas_container  # Set the name of the Postgres container
+    hostname: postgres  # Set the hostname for the Postgres container
+    ports:
+      - 5432:5432  # Map host port 5432 to container port 5432 (Postgres default port)
+    environment:
+      POSTGRES_USER: postgres  # Set the Postgres username
+      POSTGRES_PASSWORD: 024Wisdom@29  # Set the Postgres password
+      POSTGRES_DB: Aucas  # Set the default database name
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # Mount a volume for persistent data storage
+    restart: unless-stopped  # Restart the container unless explicitly stopped
+
+  pgadmin:
+    image: dpage/pgadmin4  # Use the official pgAdmin Docker image
+    container_name: pgadmin  # Set the name of the pgAdmin container
+    depends_on:
+      - postgres  # Depend on the Postgres service to ensure it starts first
+    ports:
+      - "5555:80"  # Map host port 5555 to container port 80 (pgAdmin default port)
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org  # Set the default email for pgAdmin
+      PGADMIN_DEFAULT_PASSWORD: admin  # Set the default password for pgAdmin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin  # Mount a volume for persistent data storage
+    restart: unless-stopped  # Restart the container unless explicitly stopped
+
+  backend:
+    stdin_open: true  # Open stdin for the backend service
+    build:
+      context: .
+      dockerfile: Dockerfile  # Use the Dockerfile in the current context for building the backend service
+    container_name: aucas_container  # Set the name of the backend container
+    depends_on:
+      - postgres  # Depend on the Postgres service to ensure it starts first
+    ports:
+      - "5000:5000"  # Map host port 3000 to container port 3000 (assuming the backend runs on port 3000)
+    restart: always  # Always restart the container
+
+volumes:
+  postgres-data:  # Define a named volume for Postgres data storage
+  pgadmin-data:  # Define a named volume for pgAdmin data storage
