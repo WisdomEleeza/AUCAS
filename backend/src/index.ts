@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import 'module-alias/register';
 import express from 'express';
+import errorHandler from '@/middleware/error.middleware'
 const port = process.env.PORT || 8080;
 
 const app = express();
@@ -9,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 
-app.use()
+app.use(errorHandler)
 
 
 

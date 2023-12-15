@@ -6,9 +6,9 @@
   "scripts": {
     "prisma:format": "npx prisma format",
     "build": "rimraf dist && npx tsc",
-    "start": "nodemon dist/index.js",
+    "server": "nodemon dist/index.js",
     "preserve": "npm run build",
-    "server": "concurrently \"npm run tsc-watch\" \"nodemon dist/index.js\"",
+    "start": "concurrently \"npm run tsc-watch\" \"nodemon dist/index.js\"",
     "tsc-watch": "tsc -w",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",

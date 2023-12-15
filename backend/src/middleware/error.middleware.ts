@@ -18,4 +18,4 @@ const errorHandler = (
   next();
 };
 
-module.exports = errorHandler;
+export default errorHandler;
