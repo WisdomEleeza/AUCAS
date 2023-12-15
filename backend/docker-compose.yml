@@ -1,9 +1,9 @@
-version: "3.9"  # Docker Compose file version
+version: "1.0"  # Docker Compose file version
 
 services:
   postgres:
     image: postgres:16.1  # Use the official Postgres Docker image version 16.1
-    container_name: aucas_container  # Set the name of the Postgres container
+    container_name: aucas_postgres_container  # Set the name of the Postgres container
     hostname: postgres  # Set the hostname for the Postgres container
     ports:
       - 5432:5432  # Map host port 5432 to container port 5432 (Postgres default port)
@@ -34,11 +34,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile  # Use the Dockerfile in the current context for building the backend service
-    container_name: aucas_container  # Set the name of the backend container
+    container_name: aucas_backend_container  # Set the name of the backend container
     depends_on:
       - postgres  # Depend on the Postgres service to ensure it starts first
     ports:
-      - "5000:5000"  # Map host port 3000 to container port 3000 (assuming the backend runs on port 3000)
+      - "5000:5000"  # Map host port 5000 to container port 5000 (assuming the backend runs on port 3000)
     restart: always  # Always restart the container
 
 volumes:
