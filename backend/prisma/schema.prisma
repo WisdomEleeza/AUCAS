@@ -17,47 +17,49 @@ enum Gender {
 }
 
 enum ResultDocument {
-  SHS_GRADUATE
+  SHS_GRADUATE // submitted
   RE_SIT
   WAITING_SHS_3
   SHS2_SHS1
   TAP
 }
 
-enum Sponsorship {
-  STUDENT_LOAN
-  REQUESTING_SPONSORSHIP
-  HAVE_SCHOLARSHIP
-}
-
 enum Relationship {
+  SELF
   PARENT
   SIBLING
   OTHER
 }
 
+enum Support {
+  STUDENT_LOAN
+  REQUESTING_SPONSORSHIP
+  HAVE_SCHOLARSHIP
+}
+
 model Student {
-  id                 String          @id @default(uuid())
+  id                 String         @id @default(uuid())
   profilePicture     String?
-  resultDocument     ResultDocument?
+  resultDocument     ResultDocument
   currentInstitution String
   country            String
   firstName          String
   lastName           String
-  email              String          @unique
+  email              String         @unique
   phone              String
   residenceAddress   String
   gender             Gender
   occupation         String
   workAddress        String?
-  city               String?
-  dateOfBirth        DateTime?
+  city               String
+  dateOfBirth        DateTime
   nationalId         String
   nationality2       String?
   password           String
-  relationship       Relationship
-  hasScholarship     Sponsorship
+  // relationship    Relationship
+  support            Support
   sponsor            Sponsor? // Make it optional, as sponsorship can be self
+  essay String
 }
 
 // Sponsor model now has an optional relationship with Student
@@ -69,8 +71,8 @@ model Sponsor {
   phone            String
   residenceAddress String
   relation         Relationship
-  occupation       String
-  workAddress      String
+  occupation       String?
+  workAddress      String?
   student          Student?     @relation(fields: [studentId], references: [id])
   studentId        String?      @unique // Make it unique, as it's part of a one-to-one relationship
 }
